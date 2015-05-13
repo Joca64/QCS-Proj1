@@ -48,16 +48,26 @@ public class InsulinDoseCalculator{
     public int mealtimeInsulinDose(int carbohydrateAmount, int carbohydrateToInsulinRatio, int preMealBloodSugar, int targetBloodSugar, int personalSensitivity)
     {
         //Input verification
-        if(carbohydrateAmount < 60 || carbohydrateAmount > 120)
+        if(carbohydrateAmount < 60 || carbohydrateAmount > 120) {
+            System.out.println("Carbohydrate Amount is off the expected values.");
             return -1;
-        if(carbohydrateToInsulinRatio < 10 || carbohydrateToInsulinRatio > 15)
+        }
+        if(carbohydrateToInsulinRatio < 10 || carbohydrateToInsulinRatio > 15){
+            System.out.println("Carbohydrate to insulin ratio is off the expected values.");
             return -1;
-        if(preMealBloodSugar < 120 || preMealBloodSugar > 250)
+        }
+        if(preMealBloodSugar < 120 || preMealBloodSugar > 250){
+            System.out.println("Pre meal blood sugar is off the expected values.");
             return -1;
-        if(targetBloodSugar < 80 || targetBloodSugar > 120)
+        }
+        if(targetBloodSugar < 80 || targetBloodSugar > 120){
+            System.out.println("Target blood sugar is off the expected values.");
             return -1;
-        if(personalSensitivity < 15 || personalSensitivity > 100)
+        }
+        if(personalSensitivity < 15 || personalSensitivity > 100){
+            System.out.println("Personal sensitivity is off the expected values.");
             return -1;
+        }
 
         //Special case, target blood sugar level is higher than the pre-meal blood sugar level
         if(preMealBloodSugar<targetBloodSugar)
@@ -132,9 +142,9 @@ public class InsulinDoseCalculator{
             return -1;
 
         //Calculate linear regression
-        int[] result = linearRegression(physicalActivitySamples, bloodSugarDropSamples);
+        float[] result = linearRegression(physicalActivitySamples, bloodSugarDropSamples);
         //Calculate personal sensitivity
-        return result[1] + result[0] * physicalActivityLevel;
+        return Math.round(result[1] + result[0] * physicalActivityLevel);
     }
 
     //Checks inputs on both arrays
@@ -160,11 +170,11 @@ public class InsulinDoseCalculator{
 
 
     //Performs a linear regression
-    private int[] linearRegression(int[] physicalActivitySamples, int[] bloodSugarDropSamples)
+    private float[] linearRegression(int[] physicalActivitySamples, int[] bloodSugarDropSamples)
     {
         //http://introcs.cs.princeton.edu/java/97data/LinearRegression.java.html
         //alpha = beta1
-        int[] result = new int[2];
+        float[] result = new float[2];
         int n = physicalActivitySamples.length, i;
         float Sx = 0, Sy = 0, Sxx = 0, Syy = 0, Sxy = 0;
 
@@ -187,8 +197,8 @@ public class InsulinDoseCalculator{
         float alpha = Sxy / Sxx;
         float beta = ybar - alpha * xbar;
 
-        result[0] = Math.round(alpha);
-        result[1] = Math.round(beta);
+        result[0] = alpha;
+        result[1] = beta;
 
         return result;
     }
