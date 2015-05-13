@@ -47,24 +47,24 @@ public class InsulinDoseCalculator{
     @WebMethod
     public int mealtimeInsulinDose(int carbohydrateAmount, int carbohydrateToInsulinRatio, int preMealBloodSugar, int targetBloodSugar, int personalSensitivity)
     {
-        //Input verification
-        if(carbohydrateAmount < 60 || carbohydrateAmount > 120) {
+        //Input verification, all values have been adjusted to -+ 25% of the initial range
+        if(carbohydrateAmount < 45 || carbohydrateAmount > 135) {
             System.out.println("Carbohydrate Amount is off the expected values.");
             return -1;
         }
-        if(carbohydrateToInsulinRatio < 10 || carbohydrateToInsulinRatio > 15){
+        if(carbohydrateToInsulinRatio < 9 || carbohydrateToInsulinRatio > 16){
             System.out.println("Carbohydrate to insulin ratio is off the expected values.");
             return -1;
         }
-        if(preMealBloodSugar < 120 || preMealBloodSugar > 250){
+        if(preMealBloodSugar < 88 || preMealBloodSugar > 282){
             System.out.println("Pre meal blood sugar is off the expected values.");
             return -1;
         }
-        if(targetBloodSugar < 80 || targetBloodSugar > 120){
+        if(targetBloodSugar < 70 || targetBloodSugar > 130){
             System.out.println("Target blood sugar is off the expected values.");
             return -1;
         }
-        if(personalSensitivity < 15 || personalSensitivity > 100){
+        if(personalSensitivity < 0 || personalSensitivity > 119){
             System.out.println("Personal sensitivity is off the expected values.");
             return -1;
         }
@@ -99,7 +99,7 @@ public class InsulinDoseCalculator{
     public int backgroundInsulinDose(int bodyWeight)
     {
         //Input verification
-        if(bodyWeight < 40 || bodyWeight > 130)
+        if(bodyWeight < 18 || bodyWeight > 152)
             return -1;
 
         //Converting to float
