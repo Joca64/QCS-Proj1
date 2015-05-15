@@ -74,13 +74,13 @@ public class InsulinDoseCalculator{
             return 0;
 
         //Converting to float
-        float preMealBloodSugarF = preMealBloodSugar;
-        float carbohydrateAmountF = carbohydrateAmount;
+        double preMealBloodSugarF = preMealBloodSugar;
+        double carbohydrateAmountF = carbohydrateAmount;
         //Normal insulin dose calculation
-        float highBloodSugarDose = (preMealBloodSugarF-targetBloodSugar)/personalSensitivity;
-        float carbohydrateDose = carbohydrateAmountF/carbohydrateToInsulinRatio/personalSensitivity*50;
+        double highBloodSugarDose = (preMealBloodSugarF-targetBloodSugar)/personalSensitivity;
+        double carbohydrateDose = carbohydrateAmountF/carbohydrateToInsulinRatio/personalSensitivity*50;
 
-        return Math.round(highBloodSugarDose + carbohydrateDose);
+        return (int) Math.round(highBloodSugarDose + carbohydrateDose);
     }
 
     /**
@@ -103,9 +103,9 @@ public class InsulinDoseCalculator{
             return -1;
 
         //Converting to float
-        float bodyWeightF = (float)(bodyWeight * 0.55 * 0.5); //FIXME: Esta conversão aqui deve ser do desagrado do Maxi, mas foi a única maneira que arranjei para isto não se queixar.
+        double bodyWeightF = bodyWeight * 0.55 * 0.5;
         //Insulin dose calculation
-        return Math.round(bodyWeightF);
+        return (int) Math.round(bodyWeightF);
     }
 
     /**
@@ -142,9 +142,9 @@ public class InsulinDoseCalculator{
             return -1;
 
         //Calculate linear regression
-        float[] result = linearRegression(physicalActivitySamples, bloodSugarDropSamples);
+        double[] result = linearRegression(physicalActivitySamples, bloodSugarDropSamples);
         //Calculate personal sensitivity
-        return Math.round(result[1] + result[0] * physicalActivityLevel);
+        return (int) Math.round(result[1] + result[0] * physicalActivityLevel);
     }
 
     //Checks inputs on both arrays
@@ -170,13 +170,13 @@ public class InsulinDoseCalculator{
 
 
     //Performs a linear regression
-    private float[] linearRegression(int[] physicalActivitySamples, int[] bloodSugarDropSamples)
+    private double[] linearRegression(int[] physicalActivitySamples, int[] bloodSugarDropSamples)
     {
         //http://introcs.cs.princeton.edu/java/97data/LinearRegression.java.html
         //alpha = beta1
-        float[] result = new float[2];
+        double[] result = new double[2];
         int n = physicalActivitySamples.length, i;
-        float Sx = 0, Sy = 0, Sxx = 0, Syy = 0, Sxy = 0;
+        double Sx = 0, Sy = 0, Sxx = 0, Syy = 0, Sxy = 0;
 
         for(i = 0; i < n; i++)
         {
@@ -184,8 +184,8 @@ public class InsulinDoseCalculator{
             Sy = Sy + bloodSugarDropSamples[i];
         }
 
-        float xbar = Sx / n;
-        float ybar = Sy / n;
+        double xbar = Sx / n;
+        double ybar = Sy / n;
 
         for(i = 0; i < n; i++)
         {
@@ -194,8 +194,8 @@ public class InsulinDoseCalculator{
             Sxy = Sxy + (physicalActivitySamples[i] - xbar) * (bloodSugarDropSamples[i] - ybar);
         }
 
-        float alpha = Sxy / Sxx;
-        float beta = ybar - alpha * xbar;
+        double alpha = Sxy / Sxx;
+        double beta = ybar - alpha * xbar;
 
         result[0] = alpha;
         result[1] = beta;

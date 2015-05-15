@@ -16,7 +16,8 @@ public class Client {
             //service = new InsulinDoseCalculatorService(new URL("http://liis-lab.dei.uc.pt:8080/Server?wsdl")).getInsulinDoseCalculatorPort();
             //service = new InsulinDoseCalculatorService(new URL("http://qcs12.dei.uc.pt:8080/insulin?wsdl")).getInsulinDoseCalculatorPort();
             //service = new InsulinDoseCalculatorService(new URL("http://qcs18.dei.uc.pt:8080/insulin?wsdl")).getInsulinDoseCalculatorPort();14
-            service = new InsulinDoseCalculatorService(new URL("http://localhost:9000/InsulinDoseCalculator?wsdl")).getInsulinDoseCalculatorPort();
+            //service = new InsulinDoseCalculatorService(new URL("http://localhost:9000/InsulinDoseCalculator?wsdl")).getInsulinDoseCalculatorPort();
+            service = new InsulinDoseCalculatorService(new URL("http://vm-sgd17.dei.uc.pt:80/InsulinDoseCalculator?wsdl")).getInsulinDoseCalculatorPort();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
